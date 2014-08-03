@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngNodeBoilerplateApp')
+angular.module('ptdi')
 .controller('MainCtrl', function($scope) {
 
     $scope.name = "cyril";

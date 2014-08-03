@@ -3,7 +3,7 @@
 /**
  * This is the main module of the web application.
  */
-angular.module('ngNodeBoilerplateApp', [
+angular.module('ptdi', [
     'ngCookies',
     'ngResource',
     'ngSanitize',

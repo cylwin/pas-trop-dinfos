@@ -1,4 +1,4 @@
-angular.module('ngNodeBoilerplateApp')
+angular.module('ptdi')
 .factory('ErrorService', function($timeout) {
 	var alerts = [];
 	var types = ["success","info","warning","danger"];

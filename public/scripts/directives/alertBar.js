@@ -1,4 +1,4 @@
-angular.module('ngNodeBoilerplateApp')
+angular.module('ptdi')
 .directive('alertbar', function () {
     return {
         restrict:'EA',
