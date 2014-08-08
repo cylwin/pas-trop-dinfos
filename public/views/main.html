@@ -1,6 +1,25 @@
 <div class="row">
     <div class="col-md-12">
-        <h1>Hello {{ name }}!</h1>
-        <p>Welcome to your awesome webapp !</p>
+        <h1>Pas trop d'infos</h1>
+        <p>Les 5 meilleures infos du jour, trié en fonction d'un score social basé sur les intéractions entre utilisateurs de twitter.</p>
+        <div ng-repeat="categorie in categories" class="panel {{getCategorieClass(categorie._id)}}">
+            <div class="panel-heading">{{categorie.name}}</div>
+            <div class="panel-body">
+                <div class="media" ng-repeat="info in categorie.infos">
+                    <a class="pull-left" ng-href="{{info.link}}">
+                        <img class="media-object" ng-src="{{info.img}}" alt="{{info.title}}" width="200" height="120">
+                    </a>
+                  <div class="media-body">
+                    <h3 class="media-heading"><a ng-href="{{info.link}}">{{info.title}}</a></h4>
+                    <span class="description">{{info.description}} <a ng-href="{{info.link}}">lire plus...</a></span>
+                    <br>
+                    <br>
+                    <span class="source">{{info.source}}</span>
+                    <span class="score">{{info.score}}<span class="score-ref">/10</span></span>
+                  </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>

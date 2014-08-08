@@ -1,1 +1,13 @@
 /*Best style for the best web app !*/
+
+.score {
+	float : right;
+	font-size: x-large;
+}
+.score-ref{
+	font-size: large;
+}
+
+.source {
+	font-style: italic;
+}
