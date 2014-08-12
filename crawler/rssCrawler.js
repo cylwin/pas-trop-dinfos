@@ -9,6 +9,7 @@ var FeedParser = require('feedparser');
 var fs = require('fs');
 var Info = require("../models/infos");
 var request = require('request');
+var RateLimiter = require('limiter').RateLimiter;
 
 var RssCrawler = function () {
   this.init();
@@ -19,8 +20,6 @@ RssCrawler.prototype = {
   selectedItems: [],
   rendezVousCounter: 0,
   feedListCrawled : false,
-  twitterRequestTime : Date.now(), //timer to handle twitter 15 min delay
-  numberOfTwitterRequest : 0,
 
   /**
    * Constructor
@@ -34,7 +33,9 @@ RssCrawler.prototype = {
       access_token_secret: 'ZAOgyb6IYHXNFiTrkV6itwxp98pyfu4HpgMfKkVR1Yl2I'
     });
 
-  console.log('RssCrawler initialised');
+    this.limiter = new RateLimiter(170, 15*60*1000), //170 req every 15 min
+
+    console.log('RssCrawler initialised');
 
     return this;
   },
@@ -99,24 +100,12 @@ RssCrawler.prototype = {
     this.items.forEach(function(item){
       var url = item.link;
       var nextResultsParams = "";
-      self.twitterCrawler(url, nextResultsParams, item);
-    });
-  },
 
-/**
- * wait until the twitter api limitation are ok
- */
-  getTwitterPlaceToCrawl: function(){
-    console.log("numberOfTwitterRequest", this.numberOfTwitterRequest);
-    this.numberOfTwitterRequest++;
-    if(this.numberOfTwitterRequest >170){
-      console.log("numberOfTwitterRequest 170 - let's wait some minuts");
-      while(Date.now() - this.twitterRequestTime - new Date(15*60*1000) > 0){
-        //wait :-(
-      }
-      this.numberOfTwitterRequest = 0;
-      this.twitterRequestTime = Date.now();
-    }
+      self.limiter.removeTokens(1, function(err, remainingRequests) {
+        self.twitterCrawler(url, nextResultsParams, item);
+      });
+
+    });
   },
 
   /**
@@ -128,8 +117,6 @@ RssCrawler.prototype = {
    */
   twitterCrawler: function(url, nextResultsParams, item){
     var self = this;
-
-    this.getTwitterPlaceToCrawl();
 
     this.T.get('search/tweets'+nextResultsParams,
       { q: (url !== "") ? encodeURI(url) : undefined, count: 100 },
