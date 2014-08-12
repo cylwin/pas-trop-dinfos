@@ -24,6 +24,7 @@
     "express": "~4.0.0",
     "feedparser": "^0.19.1",
     "mongoose": "^3.8.8",
+    "request": "^2.40.0",
     "twit": "^1.1.18"
   }
 }
