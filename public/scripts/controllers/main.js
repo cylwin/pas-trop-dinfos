@@ -8,11 +8,11 @@ angular.module('ptdi')
 
     $scope.getCategorieClass = function(catId) {
         var catClass = {};
-        catClass["fdsqfqs123"] = "panel-primary";
-        catClass["fsefqd3323sd"] = "panel-success";
-        catClass["fs123fqd33"] = "panel-info";
-        catClass["fdfqd33fq3"] = "panel-warning";
-        catClass["fdkbgofs68f"] = "panel-danger";
+        catClass[0] = "panel-success";
+        catClass[1] = "panel-primary";
+        catClass[2] = "panel-info";
+        catClass[3] = "panel-warning";
+        catClass[4] = "panel-danger";
 
         return catClass[catId];
     }
