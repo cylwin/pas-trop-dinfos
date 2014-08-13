@@ -33,7 +33,7 @@ RssCrawler.prototype = {
       access_token_secret: 'ZAOgyb6IYHXNFiTrkV6itwxp98pyfu4HpgMfKkVR1Yl2I'
     });
 
-    this.limiter = new RateLimiter(170, 15*60*1000), //170 req every 15 min
+    this.limiter = new RateLimiter(160, 15*60*1000), //170 req every 15 min
 
     console.log('RssCrawler initialised');
 
@@ -46,7 +46,7 @@ RssCrawler.prototype = {
    */
   crawl: function(feedList){
     for (var i = 0; i < feedList.length; i++) {
-      var feedObject = feedList[i]
+      var feedObject = feedList[i];
       this.crawlFeed(feedObject.feedUrl, feedObject.categorieId, (i==(feedList.length)-1)); //last = true for the last element
     }
   },
@@ -97,16 +97,14 @@ RssCrawler.prototype = {
   getTweets: function(feedItems){ //rempli les item.twitterData
     var self = this;
     this.rendezVousCounter += feedItems.length;
-    //console.log(feedItems);
-    for (var i = 0; i < feedItems.length; i++) {
-      var url = feedItems[i].link;
+    feedItems.forEach(function(item){
+      var url = item.link;
       var nextResultsParams = "";
 
-      console.log(i, "\t: ",feedItems[i].title);
-      this.limiter.removeTokens(1, function(err, remainingRequests) {
-        self.twitterCrawler(url, nextResultsParams, feedItems[i]);
+      self.limiter.removeTokens(1, function(err, remainingRequests) {
+        self.twitterCrawler(url, nextResultsParams, item);
       });
-    };
+    });
   },
 
   /**
@@ -121,6 +119,12 @@ RssCrawler.prototype = {
     if(!item){
       console.log("err : item is undefined : url : ", url);
       this.rendezVousCounter--;
+      return;
+    }
+    if(item.twitterData){
+      console.log("err : item is undefined : url : ", url);
+      this.rendezVousCounter--;
+      return;
     }
 
     this.T.get('search/tweets'+nextResultsParams,
