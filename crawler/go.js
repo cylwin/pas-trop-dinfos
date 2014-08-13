@@ -13,7 +13,7 @@ feeds[1] = ["http://www.lexpress.fr/rss/politique.xml", "http://syndication.lese
 // "http://rss.liberation.fr/rss/13/", "http://rss.liberation.fr/rss/11/", 
 feeds[2] = ["http://www.lexpress.fr/rss/sport.xml", "http://www.lequipe.fr/rss/actu_rss.xml"];
 // , "http://rss.liberation.fr/rss/14/"
-feeds[3] = ["http://www.lexpress.fr/rss/science-et-sante.xml", "http://www.lemonde.fr/sante/rss_full.xml"];
+feeds[3] = ["http://www.lexpress.fr/rss/science-et-sante.xml"];
 feeds[4] = ["http://www.lepoint.fr/monde/rss.xml", "http://www.lemonde.fr/international/rss_full.xml"];
 
 
