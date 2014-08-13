@@ -62,12 +62,13 @@ RssCrawler.prototype = {
     var req = request(feed);
     var feedparser = new FeedParser();
 
+    var feedItems = [];
+
     req.on('error', function (err) {
       console.log("err: ",err);
     });
 
     req.on('response', function (res) {
-      console.log("response from : ",feed)
       var stream = this;
       if (res.statusCode != 200) return this.emit('error', new Error('Bad status code'));
       stream.pipe(feedparser);
@@ -84,28 +85,28 @@ RssCrawler.prototype = {
         var stream = this, item;
         while (this.item = stream.read()) {
           this.item.categorieId = categorieId;
-          self.items.push(this.item);
+          feedItems.push(this.item);
         }
       })
       .on('end', function(){
         self.feedListCrawled = last;
-        self.getTweets.bind(self)();
-      }); //we may not wait the end to begin analyse, maybe refactor a day (xml files downloaded are very small)?
+        self.getTweets.bind(self)(feedItems);
+      });
     return this;
   },
-  getTweets: function(){ //rempli les item.twitterData
+  getTweets: function(feedItems){ //rempli les item.twitterData
     var self = this;
-    this.rendezVousCounter += this.items.length;
-    //console.log(this.items);
-    this.items.forEach(function(item){
-      var url = item.link;
+    this.rendezVousCounter += feedItems.length;
+    //console.log(feedItems);
+    for (var i = 0; i < feedItems.length; i++) {
+      var url = feedItems[i].link;
       var nextResultsParams = "";
 
-      self.limiter.removeTokens(1, function(err, remainingRequests) {
-        self.twitterCrawler(url, nextResultsParams, item);
+      console.log(i, "\t: ",feedItems[i].title);
+      this.limiter.removeTokens(1, function(err, remainingRequests) {
+        self.twitterCrawler(url, nextResultsParams, feedItems[i]);
       });
-
-    });
+    };
   },
 
   /**
@@ -117,6 +118,10 @@ RssCrawler.prototype = {
    */
   twitterCrawler: function(url, nextResultsParams, item){
     var self = this;
+    if(!item){
+      console.log("err : item is undefined : url : ", url);
+      this.rendezVousCounter--;
+    }
 
     this.T.get('search/tweets'+nextResultsParams,
       { q: (url !== "") ? encodeURI(url) : undefined, count: 100 },
@@ -154,6 +159,9 @@ RssCrawler.prototype = {
 
     console.log('RT : '+RT+', fav : '+favCount+', score : '+item.analysedInfos.score+
       ', nb: '+item.twitterData.length+', article: '+item.title);
+
+    this.items.push(item);
+
     this.selectItems();
     return this;
   },
