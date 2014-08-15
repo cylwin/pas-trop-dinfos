@@ -33,7 +33,7 @@ RssCrawler.prototype = {
       access_token_secret: 'ZAOgyb6IYHXNFiTrkV6itwxp98pyfu4HpgMfKkVR1Yl2I'
     });
 
-    this.limiter = new RateLimiter(160, 15*60*1000), //170 req every 15 min
+    this.limiter = new RateLimiter(11, 60*1000), //165 req every 15 min (max 180)
 
     console.log('RssCrawler initialised');
 
@@ -85,6 +85,9 @@ RssCrawler.prototype = {
         var stream = this, item;
         while (this.item = stream.read()) {
           this.item.categorieId = categorieId;
+          this.item.title = this.item.title;
+          this.item.description = this.item.description.toString('utf-8');
+          this.item.link = this.item.link.toString('utf-8');
           feedItems.push(this.item);
         }
       })
@@ -101,8 +104,9 @@ RssCrawler.prototype = {
       var url = item.link;
       var nextResultsParams = "";
 
+      console.log(item.title);
       self.limiter.removeTokens(1, function(err, remainingRequests) {
-        self.twitterCrawler(url, nextResultsParams, item);
+         self.twitterCrawler(url, nextResultsParams, item);
       });
     });
   },

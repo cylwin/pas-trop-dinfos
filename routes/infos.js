@@ -25,8 +25,8 @@ app.get('/infos', function(req, res) {
                     categories[data[i].categorieId].infos = [];
                 }
                 categories[data[i].categorieId].infos.push(data[i]);
+                console.log(data[i].title);
             }
-            //console.log(categories);
             res.send({categories : categories});
         });
 });
