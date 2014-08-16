@@ -19,7 +19,6 @@ RssCrawler.prototype = {
   items: [],
   selectedItems: [],
   rendezVousCounter: 0,
-  feedListCrawled : false,
 
   /**
    * Constructor
@@ -47,17 +46,16 @@ RssCrawler.prototype = {
   crawl: function(feedList){
     for (var i = 0; i < feedList.length; i++) {
       var feedObject = feedList[i];
-      this.crawlFeed(feedObject.feedUrl, feedObject.categorieId, (i==(feedList.length)-1)); //last = true for the last element
+      this.crawlFeed(feedObject.feedUrl, feedObject.categorieId); //last = true for the last element
     }
   },
   /**
    * crawl a feed
    * @param  {string} feed        feed url
    * @param  {integer} categorieId categorie of the feed
-   * @param  {Boolean} last        if it's the last feed, it switch the rendezvous var feedListCrawled
    * @return {RssCrawler}         this
    */
-  crawlFeed: function(feed, categorieId, last){
+  crawlFeed: function(feed, categorieId){
     var self = this;
     var req = request(feed);
     var feedparser = new FeedParser();
@@ -92,7 +90,6 @@ RssCrawler.prototype = {
         }
       })
       .on('end', function(){
-        self.feedListCrawled = last;
         self.getTweets.bind(self)(feedItems);
       });
     return this;
@@ -180,7 +177,8 @@ RssCrawler.prototype = {
    */
   selectItems: function(){
     this.rendezVousCounter--;
-    if(this.rendezVousCounter <= 0 && this.feedListCrawled){ //TODO check this parameters
+    console.log("rendezVousCounter : ", this.rendezVousCounter);
+    if(this.rendezVousCounter <= 0){ //TODO check this parameters
       this.items.sort(function(a,b){
         if(!a.analysedInfos){
           a.analysedInfos = {score: 0};
