@@ -6,12 +6,12 @@
             <div class="panel-heading cat-name">{{categorie.name}}</div>
             <div class="panel-body">
                 <div class="media" ng-repeat="info in categorie.infos">
-                    <a class="pull-left" ng-href="{{info.link}}" ng-click="click(info._id)">
+                    <a class="pull-left" ng-href="{{info.link}}" ng-click="openLink(info._id)">
                         <img class="media-object" ng-src="{{info.img}}" alt="{{info.title}}" width="200" height="120">
                     </a>
                   <div class="media-body">
-                    <h3 class="media-heading"><a class="info-name" ng-href="{{info.link}}" ng-click="click(info._id)">{{info.title}}</a></h4>
-                    <span class="description">{{info.description}} <a ng-href="{{info.link}}">lire plus...</a></span>
+                    <h3 class="media-heading"><a class="info-name" ng-href="{{info.link}}" ng-click="openLink(info._id)">{{info.title}}</a></h4>
+                    <span class="description"><span ng-bind-html="info.description"></span> <a ng-href="{{info.link}}">lire plus...</a></span>
                     <br>
                     <br>
                     <span class="score"><span class="score-header">PTDI Score :</span> {{info.score}}</span>

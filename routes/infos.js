@@ -39,7 +39,6 @@ app.get('/infos/click', function(req, res) {
         Info.findOne({_id : req.query._id}, function(err, info){
             if(err){ return; }
             info.clickCount++;
-            console.log("info.clickCount : ",info.clickCount)
             info.save();
         })
     res.send(200);
