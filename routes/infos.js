@@ -2,8 +2,8 @@ module.exports = function(app){
 
 var express = require('express');
 var router = express.Router();
-var Categorie = require('../models/categories');
-var Info = require('../models/infos');
+var Categorie = require(__dirname+'/../models/categories');
+var Info = require(__dirname+'/../models/infos');
 
 /* GET today best infos. */
 app.get('/infos', function(req, res) {

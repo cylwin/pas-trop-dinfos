@@ -1,4 +1,3 @@
-
 var Twit = require('twit');
 var RateLimiter = require('limiter').RateLimiter;
 
