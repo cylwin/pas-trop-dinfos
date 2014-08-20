@@ -3,13 +3,15 @@
  * This is a node-feedparser example
  * 
  */
-var Twit = require('twit');
 var async = require('async');
 var FeedParser = require('feedparser');
-var fs = require('fs');
 var Info = require("../models/infos");
 var request = require('request');
-var RateLimiter = require('limiter').RateLimiter;
+var Rendezvous = require('./rendezvous');
+var Twitter = require('./twitter');
+
+var iconv = require('iconv-lite');
+
 
 var RssCrawler = function () {
   this.init();
@@ -25,37 +27,34 @@ RssCrawler.prototype = {
    * @return {RssCrawler} this
    */
   init:function(){
-    this.T = new Twit({ //don't try it's fake id :-D
-      consumer_key: 'vXaVn4jZ6Kx5jrsIk769Hb9gV',
-      consumer_secret: 'DuBR4ndQ6X9qIgFkfwHdOkI52JLBzbmqG5W3zNTFMha2u5LV1q',
-      access_token: '2384827184-qRIWyOsmrPYooELlo0idhbkQQJP2wnf19u2kVRt',
-      access_token_secret: 'ZAOgyb6IYHXNFiTrkV6itwxp98pyfu4HpgMfKkVR1Yl2I'
-    });
-
-    this.limiter = new RateLimiter(11, 60*1000), //165 req every 15 min (max 180)
-
+    this.rendezvous = new Rendezvous(this.selectItems);
+    this.rendezvous.setCallback(this.selectItems);
     console.log('RssCrawler initialised');
+
+    this.twitter = new Twitter();
 
     return this;
   },
+
   /**
    * crawl each feed of the list. then calcul score and select best items
    * @param  {Array} feedList   List of feedObject - url and categorieId
-   * @return {RssCrawler}          [description]
+   * @return {RssCrawler}          this
    */
   crawl: function(feedList){
     for (var i = 0; i < feedList.length; i++) {
       var feedObject = feedList[i];
-      this.crawlFeed(feedObject.feedUrl, feedObject.categorieId); //last = true for the last element
+      this.crawlFeed(feedObject.feedUrl, feedObject.categorieId, feedObject.charset); //last = true for the last element
     }
+    return this;
   },
   /**
-   * crawl a feed
+   * (async) parse a feed
    * @param  {string} feed        feed url
    * @param  {integer} categorieId categorie of the feed
    * @return {RssCrawler}         this
    */
-  crawlFeed: function(feed, categorieId){
+  crawlFeed: function(feed, categorieId, charset){
     var self = this;
     var req = request(feed);
     var feedparser = new FeedParser();
@@ -69,7 +68,13 @@ RssCrawler.prototype = {
     req.on('response', function (res) {
       var stream = this;
       if (res.statusCode != 200) return this.emit('error', new Error('Bad status code'));
-      stream.pipe(feedparser);
+
+      if(charset && charset !== "utf8"){
+        var converterStream = iconv.decodeStream(charset);
+        stream.pipe(converterStream).pipe(feedparser);
+      }else{
+        stream.pipe(feedparser);
+      }
     });
 
     feedparser
@@ -83,102 +88,29 @@ RssCrawler.prototype = {
         var stream = this, item;
         while (this.item = stream.read()) {
           this.item.categorieId = categorieId;
-          this.item.title = this.item.title;
-          this.item.description = this.item.description.toString('utf-8');
-          this.item.link = this.item.link.toString('utf-8');
+
+
           feedItems.push(this.item);
         }
       })
       .on('end', function(){
-        self.getTweets.bind(self)(feedItems);
-      });
-    return this;
-  },
-  getTweets: function(feedItems){ //rempli les item.twitterData
-    var self = this;
-    this.rendezVousCounter += feedItems.length;
-    feedItems.forEach(function(item){
-      var url = item.link;
-      var nextResultsParams = "";
-
-      console.log(item.title);
-      self.limiter.removeTokens(1, function(err, remainingRequests) {
-         self.twitterCrawler(url, nextResultsParams, item);
-      });
-    });
-  },
-
-  /**
-   * (async) crawl twitter search api
-   * @param  {String} url     the link to serach on twitter
-   * @param  {integer} nextResultsParams  offset for link with a lot of tweets
-   * @param  {Object} item    the function fill item.twitterData
-   * @return {rssCrawler}       this
-   */
-  twitterCrawler: function(url, nextResultsParams, item){
-    var self = this;
-    if(!item){
-      console.log("err : item is undefined : url : ", url);
-      this.rendezVousCounter--;
-      return;
-    }
-    if(item.twitterData){
-      console.log("err : item is undefined : url : ", url);
-      this.rendezVousCounter--;
-      return;
-    }
-
-    this.T.get('search/tweets'+nextResultsParams,
-      { q: (url !== "") ? encodeURI(url) : undefined, count: 100 },
-      function(err, data, response) {
-      if(err){
-        self.rendezVousCounter--; //todo, try again with this item
-        console.log(err);
-        if(err == "trop de requete en 15 minutes"){
-          //sleep_during( 15min - Date.now + self.twitterRequestTime);
-          //self.twitterRequestTime = Date.now;
-          //self.twitterCrawler(url, nextResultsParams, item)
+        self.rendezvous.addTokens(feedItems.length);
+        var callbackSuccess = function(item){
+          self.items.push(item);
+          self.rendezvous.ready();
         }
-        return;
-      }
-      //console.log(JSON.stringify(data));
-      item.twitterData = data.statuses;
-      self.parseTwitterData.bind(self)(item);
-    });
-    return this;
-  },
-  /**
-   * analyse twitter search api result in order to calculate a score
-   * @param  {Object} item item to hidrate with calculated datas
-   * @return {RssCrawler}      this
-   */
-  parseTwitterData: function(item){
-    var RT = 0;
-    var favCount = 0;
-    for (var i = 0; i < item.twitterData.length; i++) {
-      RT += item.twitterData[i].retweet_count;
-      favCount += item.twitterData[i].favorite_count;
-    };
-    item.analysedInfos = {RT : RT, favCount : favCount, tweetCount : item.twitterData.length};
-    item.analysedInfos.score = this.calculateScore(RT, favCount, item.twitterData.length);
-
-    console.log('RT : '+RT+', fav : '+favCount+', score : '+item.analysedInfos.score+
-      ', nb: '+item.twitterData.length+', article: '+item.title);
-
-    this.items.push(item);
-
-    this.selectItems();
+        var callbackError = self.rendezvous.ready;
+        self.twitter.getTweets(feedItems, callbackSuccess, callbackError);
+      });
     return this;
   },
 
+
   /**
-   * Select the 5 best item. One from each categorie.
+   * Select the 5 best item. One from each categorie. And store the in selected items
    * @return {RssCrawler} this
    */
   selectItems: function(){
-    this.rendezVousCounter--;
-    console.log("rendezVousCounter : ", this.rendezVousCounter);
-    if(this.rendezVousCounter <= 0){ //TODO check this parameters
       this.items.sort(function(a,b){
         if(!a.analysedInfos){
           a.analysedInfos = {score: 0};
@@ -196,7 +128,6 @@ RssCrawler.prototype = {
         }
       };
       this.save();
-    }
 
     return this;
   },
@@ -204,9 +135,10 @@ RssCrawler.prototype = {
   save: function(){
     for (var i = 0; i < this.selectedItems.length; i++) {
 
-      var enclosure;
+      var img;
       if(this.selectedItems[i].enclosures && this.selectedItems[i].enclosures[0]){
-        enclosure = this.selectedItems[i].enclosures[0].url;
+        //img is often contained in enclosures
+        img = this.selectedItems[i].enclosures[0].url;
       }
 
       var info = {
@@ -214,7 +146,7 @@ RssCrawler.prototype = {
         description: this.selectedItems[i].description,
         categorieId: this.selectedItems[i].categorieId,
         link: this.selectedItems[i].link, //non urlencoded
-        img: enclosure, //url of image non urlencoded
+        img: img, //url of image non urlencoded
         clickCount: 0,
         twitter : {
           RT: this.selectedItems[i].analysedInfos.RT, //nb of RT,
@@ -236,17 +168,6 @@ RssCrawler.prototype = {
     };
   },
 
-  /**
-   * calculate the social score
-   * @param  {integer} RT         Number of retweet
-   * @param  {integer} favCount   Number of twitter favorite
-   * @param  {integer} tweetCount Number of tweet
-   * @return {integer}            score
-   */
-  calculateScore : function(RT, favCount, tweetCount){
-    var score = RT*3 + favCount + tweetCount*2;
-    return score;
-  }
 }
 
 module.exports = RssCrawler;

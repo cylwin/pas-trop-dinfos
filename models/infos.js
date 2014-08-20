@@ -15,6 +15,10 @@ var infoSchema = mongoose.Schema({
 		favCount : Number,
 		tweetCount : Number
 	},
+	sentiments : {
+		positive : Number, //score between [0,1]
+		negative : Number
+	},
 	score : Number, //it's important to save the computed score because the algorithme may change
 	publishDate : Date
 });

@@ -1,0 +1,39 @@
+[{
+    "feedUrl": "http://www.lefigaro.fr/rss/figaro_sciences.xml",
+    "categorieId": 0,
+    "charset": "iso-8859-1"
+}, {
+    "feedUrl": "http://syndication.lesechos.fr/rss/rss_tech_medias.xml",
+    "categorieId": 0
+}, {
+    "feedUrl": "http://www.leparisien.fr/high-tech/rss.xml",
+    "categorieId": 0
+}, {
+    "feedUrl": "http://www.lefigaro.fr/rss/figaro_hightech.xml",
+    "categorieId": 0,
+    "charset": "iso-8859-1"
+}, {
+    "feedUrl": "http://www.lexpress.fr/rss/politique.xml",
+    "categorieId": 1,
+    "charset": "iso-8859-1"
+}, {
+    "feedUrl": "http://syndication.lesechos.fr/rss/rss_politique.xml",
+    "categorieId": 1
+}, {
+    "feedUrl": "http://www.lemonde.fr/emploi/rss_full.xml",
+    "categorieId": 1
+}, {
+    "feedUrl": "http://www.lexpress.fr/rss/sport.xml",
+    "categorieId": 2,
+    "charset": "iso-8859-1"
+}, {
+    "feedUrl": "http://www.lexpress.fr/rss/science-et-sante.xml",
+    "categorieId": 3,
+    "charset": "iso-8859-1"
+}, {
+    "feedUrl": "http://www.lepoint.fr/monde/rss.xml",
+    "categorieId": 4
+}, {
+    "feedUrl": "http://www.lemonde.fr/international/rss_full.xml",
+    "categorieId": 4
+}]

@@ -31,4 +31,20 @@ app.get('/infos', function(req, res) {
         });
 });
 
+app.post('/infos', function(req, res) {
+    if(req.params.click){
+        if(!req.params._id){
+            res.send(400); //TODO check this code
+            return;
+        }
+        Info.findOne({_id : req.params._id}, function(err, info){
+            if(err){ return; }
+            info.clickCount++;
+            info.save();
+        })
+    res.send(200);
+    }
+    res.send(404);
+});
+
 };

@@ -16,4 +16,8 @@ angular.module('ptdi')
 
         return catClass[catId];
     }
+
+    $scope.openLink = function(_id){
+        NewsService.resource.click({_id: _id});
+    }
 });

@@ -23,6 +23,7 @@
     "ejs": "~0.8.5",
     "express": "~4.0.0",
     "feedparser": "^0.19.1",
+    "iconv-lite": "^0.4.4",
     "limiter": "^1.0.5",
     "mongoose": "^3.8.8",
     "request": "^2.40.0",
