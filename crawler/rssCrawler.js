@@ -1,7 +1,7 @@
 
   /*!
  * This is a node-feedparser example
- * 
+ *
  */
 var async = require('async');
 var FeedParser = require('feedparser');
@@ -99,7 +99,9 @@ RssCrawler.prototype = {
           self.items.push(item);
           self.rendezvous.ready();
         }
-        var callbackError = self.rendezvous.ready;
+        var callbackError = function(){
+          self.rendezvous.ready();
+        }
         self.twitter.getTweets(feedItems, callbackSuccess, callbackError);
       });
     return this;

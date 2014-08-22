@@ -19,9 +19,9 @@ Twitter.prototype = {
 	  	access_token: '2384827184-qRIWyOsmrPYooELlo0idhbkQQJP2wnf19u2kVRt',
 	  	access_token_secret: 'ZAOgyb6IYHXNFiTrkV6itwxp98pyfu4HpgMfKkVR1Yl2I'
 	  });
-    
+
     this.limiter = new RateLimiter(11, 60*1000); //165 req every 15 min (max 180)
-	}, 
+	},
 
 	/**
 	 * (async) call twitter api and the analyse result for each feedItem
@@ -64,6 +64,7 @@ Twitter.prototype = {
 				if(err){
 					console.error(err);
 					callbackErr(); //todo, try again with this item
+          return;
 				}
 				item.twitterData = data.statuses;
 		    self.parseTwitterData.bind(self)(item, callbackSucess);
@@ -91,7 +92,7 @@ Twitter.prototype = {
     this.printInfos(RT, favCount, item.analysedInfos.score, item.twitterData.length, item.title);
 
 		callback();
-    
+
     return this;
   },
 
