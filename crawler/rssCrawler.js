@@ -124,6 +124,9 @@ RssCrawler.prototype = {
       });
       var categoriesUsed = [];
       for (var i = 0; i < this.items.length && this.selectedItems.length < 5; i++) {
+        if(!this.items[i].categorieId){
+          continue;
+        }
         if(!categoriesUsed[this.items[i].categorieId]){
           this.selectedItems.push(this.items[i]);
           categoriesUsed[this.items[i].categorieId] = true;
