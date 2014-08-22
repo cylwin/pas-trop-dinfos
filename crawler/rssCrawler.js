@@ -28,7 +28,7 @@ RssCrawler.prototype = {
    */
   init:function(){
     this.rendezvous = new Rendezvous(this.selectItems);
-    this.rendezvous.setCallback(this.selectItems);
+    this.rendezvous.setCallback(this.selectItems.bind(this));
     console.log('RssCrawler initialised');
 
     this.twitter = new Twitter();
