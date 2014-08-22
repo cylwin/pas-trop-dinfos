@@ -1,5 +1,6 @@
 // /models/user.js
 var mongoose = require('mongoose');
+var Categorie = require(__dirname+'/categories');
 
 // define the schema for our game model
 var infoSchema = mongoose.Schema({
@@ -23,6 +24,36 @@ var infoSchema = mongoose.Schema({
 	publishDate : Date
 });
 
+
+infoSchema.statics.getInfos = function getInfos(date, cb) {
+
+    start = new Date(date);
+    end = new Date(date);
+
+    start.setHours(0,0,0,0);
+    end.setHours(23,59,59);
+
+    this.find({date: {$gte: start, $lt: end}})
+        .limit(5)
+        .sort('-date')
+        .select('_id title categorieId description link img score')
+        .exec(cb);
+
+    return this;
+};
+
+infoSchema.statics.groupByCategories = function(infos) {
+    var categorie = new Categorie();
+    var categories = categorie.get();
+    for (var i = 0; i < infos.length; i++) {
+        if(categories[infos[i].categorieId].infos === undefined){
+            categories[infos[i].categorieId].infos = [];
+        }
+        categories[infos[i].categorieId].infos.push(infos[i]);
+        console.log(infos[i].title);
+    }
+    return categories;
+};
 
 // create the model for a game and expose it to our app
 module.exports = mongoose.model('Info', infoSchema);
