@@ -46,7 +46,7 @@ Twitter.prototype = {
 	* @param  {Object} item    the function fill item.twitterData
 	* @return {rssCrawler}     this
 	*/
-	search: function(url, item, callbackSucess, callbackErr){
+	search: function(url, item, callbackSuccess, callbackErr){
 		var self = this;
 		if(!item){
 			console.error("err : item is undefined : url : ", url);
@@ -67,7 +67,7 @@ Twitter.prototype = {
           return;
 				}
 				item.twitterData = data.statuses;
-		    self.parseTwitterData.bind(self)(item, callbackSucess);
+		    self.parseTwitterData.bind(self)(item, callbackSuccess);
 
 		});
 		return this;
@@ -91,7 +91,7 @@ Twitter.prototype = {
 
     this.printInfos(RT, favCount, item.analysedInfos.score, item.twitterData.length, item.title);
 
-		callback();
+		callback(item);
 
     return this;
   },

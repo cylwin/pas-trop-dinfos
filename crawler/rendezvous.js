@@ -16,7 +16,7 @@ RendezVous.prototype = {
   },
 
   setCallback: function(callback){
-    if(!callback){
+    if(typeof callback != 'function'){
       throw new Error("callback must be a function");
     }
     this.callback = callback;
@@ -33,7 +33,6 @@ RendezVous.prototype = {
     if(numberOfTokens < 0){
       throw new Error("numberOfTokens must positive or null");
     }
-    numberOfTokens = numberOfTokens || 0;
     this.numberOfTokens = this.numberOfTokens + numberOfTokens;
   }
 }

@@ -1,8 +1,4 @@
 
-  /*!
- * This is a node-feedparser example
- *
- */
 var async = require('async');
 var FeedParser = require('feedparser');
 var Info = require("../models/infos");
@@ -20,15 +16,21 @@ var RssCrawler = function () {
 RssCrawler.prototype = {
   items: [],
   selectedItems: [],
-  rendezVousCounter: 0,
 
   /**
    * Constructor
    * @return {RssCrawler} this
    */
   init:function(){
+    var self = this;
+    this.items = [];
+    this.selectedItems = [];
+
     this.rendezvous = new Rendezvous(this.selectItems);
-    this.rendezvous.setCallback(this.selectItems.bind(this));
+    this.rendezvous.setCallback(function(){
+      self.selectItems();
+      self.save();
+    });
     console.log('RssCrawler initialised');
 
     this.twitter = new Twitter();
@@ -123,8 +125,8 @@ RssCrawler.prototype = {
         return -(a.analysedInfos.score - b.analysedInfos.score);
       });
       var categoriesUsed = [];
-      for (var i = 0; i < this.items.length && this.selectedItems.length < 5; i++) {
-        if(!this.items[i].categorieId){
+      for (var i = 0; i < this.items.length && this.selectedItems.length <= 5; i++) {
+        if(typeof this.items[i].categorieId == undefined){
           continue;
         }
         if(!categoriesUsed[this.items[i].categorieId]){
@@ -132,7 +134,6 @@ RssCrawler.prototype = {
           categoriesUsed[this.items[i].categorieId] = true;
         }
       };
-      this.save();
 
     return this;
   },
