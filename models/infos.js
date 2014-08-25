@@ -1,6 +1,6 @@
 // /models/user.js
 var mongoose = require('mongoose');
-var Categorie = require(__dirname+'/categories');
+var categorie = require(__dirname+'/categories');
 
 // define the schema for our game model
 var infoSchema = mongoose.Schema({
@@ -43,14 +43,12 @@ infoSchema.statics.getInfos = function getInfos(date, cb) {
 };
 
 infoSchema.statics.groupByCategories = function(infos) {
-    var categorie = new Categorie();
     var categories = categorie.get();
     for (var i = 0; i < infos.length; i++) {
         if(categories[infos[i].categorieId].infos === undefined){
             categories[infos[i].categorieId].infos = [];
         }
         categories[infos[i].categorieId].infos.push(infos[i]);
-        console.log(infos[i].title);
     }
     return categories;
 };

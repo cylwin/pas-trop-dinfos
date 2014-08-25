@@ -2,7 +2,6 @@ module.exports = function(app){
 
 var express = require('express');
 var router = express.Router();
-var Categorie = require(__dirname+'/../models/categories');
 var Info = require(__dirname+'/../models/infos');
 
 /* GET today best infos. */
