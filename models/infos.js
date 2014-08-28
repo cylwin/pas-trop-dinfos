@@ -43,7 +43,7 @@ infoSchema.statics.getInfos = function getInfos(date, cb) {
 };
 
 infoSchema.statics.groupByCategories = function(infos) {
-    var categories = categorie.get();
+    var categories = categorie.get().slice(0);
     for (var i = 0; i < infos.length; i++) {
         if(categories[infos[i].categorieId].infos === undefined){
             categories[infos[i].categorieId].infos = [];
