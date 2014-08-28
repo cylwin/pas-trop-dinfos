@@ -1,13 +1,15 @@
 
-var categories = [];
-categories[0] = {_id: 0, name : "Science/HighTech"};
-categories[1] = {_id: 1, name : "Economie/Politique"};
-categories[2] = {_id: 2, name : "Sport"};
-categories[3] = {_id: 3, name : "Santé"};
-categories[4] = {_id: 4, name : "International"};
 
 module.exports = {
   get: function(id){
+
+    var categories = [];
+    categories[0] = {_id: 0, name : "Science/HighTech"};
+    categories[1] = {_id: 1, name : "Economie/Politique"};
+    categories[2] = {_id: 2, name : "Sport"};
+    categories[3] = {_id: 3, name : "Santé"};
+    categories[4] = {_id: 4, name : "International"};
+
     if(id === undefined){
       return categories;
     }
