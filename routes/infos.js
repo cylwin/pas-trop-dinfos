@@ -20,7 +20,7 @@ app.get('/infos', function(req, res) {
         }
         categories = Info.groupByCategories(infos);
         res.send({categories : categories});
-    })
+    });
 
 });
 
