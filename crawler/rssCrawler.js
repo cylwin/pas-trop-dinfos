@@ -88,7 +88,7 @@ RssCrawler.prototype = {
       .on('readable', function() {
         var stream = this, item;
         while (this.item = stream.read()) {
-          if((Date.now()-Date.parse(this.item.pubdate))/(3600*1000) < 28) {
+          if((Date.now()-Date.parse(this.item.pubdate))/(3600*1000) < 38) {
             this.item.categorieId = categorieId;
             feedItems.push(this.item);
           }else {
@@ -142,7 +142,7 @@ RssCrawler.prototype = {
   save: function(){
     for (var i = 0; i < this.selectedItems.length; i++) {
 
-      var img;
+      var img = "";
       if(this.selectedItems[i].enclosures && this.selectedItems[i].enclosures[0]){
         //img is often contained in enclosures
         img = this.selectedItems[i].enclosures[0].url;
