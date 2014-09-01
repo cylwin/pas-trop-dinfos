@@ -92,7 +92,10 @@ RssCrawler.prototype = {
             this.item.categorieId = categorieId;
             feedItems.push(this.item);
           }else {
-            console.log("TOO OLD : " + this.item.title);
+            console.log("TOO OLD : " +
+              Math.round((Date.now()-Date.parse(this.item.pubdate))/(3600*1000)) +
+              "h - " +
+              this.item.title);
           }
         }
       })
