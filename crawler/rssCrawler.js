@@ -88,7 +88,7 @@ RssCrawler.prototype = {
       .on('readable', function() {
         var stream = this, item;
         while (this.item = stream.read()) {
-          if(Date.parse(this.item.pubdate) - Date.now() < 28*3600*1000) {
+          if((Date.now()-Date.parse(this.item.pubdate))/(3600*1000) < 28) {
             this.item.categorieId = categorieId;
             feedItems.push(this.item);
           }else {
