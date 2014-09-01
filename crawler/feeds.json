@@ -4,10 +4,13 @@
     "charset": "iso-8859-1"
 }, {
     "feedUrl": "http://com.clubic.feedsportal.com/c/33464/f/581979/index.rss",
-    "categorieId": 0,
+    "categorieId": 0
+}, {
+    "feedUrl": "http://www.francetvinfo.fr/sciences.rss",
+    "categorieId": 0
 }, {
     "feedUrl": "http://rue89.feedsportal.com/c/33822/f/608957/index.rss",
-    "categorieId": 0,
+    "categorieId": 0
 }, {
     "feedUrl": "http://syndication.lesechos.fr/rss/rss_tech_medias.xml",
     "categorieId": 0
@@ -22,8 +25,11 @@
     "feedUrl": "http://www.lexpress.fr/rss/politique.xml",
     "categorieId": 1,
     "charset": "iso-8859-1"
-},{
+}, {
     "feedUrl": "http://rss.lemonde.fr/c/205/f/3067/index.rss",
+    "categorieId": 1
+}, {
+    "feedUrl": "http://www.francetvinfo.fr/politique.rss",
     "categorieId": 1
 }, {
     "feedUrl": "http://syndication.lesechos.fr/rss/rss_politique.xml",
@@ -42,7 +48,17 @@
     "feedUrl": "http://rue89.feedsportal.com/c/33822/f/618515/index.rss",
     "categorieId": 2
 }, {
+    "feedUrl": "http://www.leparisien.fr/laparisienne/sante/rss.xml",
+    "categorieId": 2
+}, {
+    "feedUrl": "http://www.francetvinfo.fr/sante.rss",
+    "categorieId": 2
+}, {
     "feedUrl": "http://www.lexpress.fr/rss/science-et-sante.xml",
+    "categorieId": 3,
+    "charset": "iso-8859-1"
+}, {
+    "feedUrl": "http://www.lefigaro.fr/rss/figaro_sante.xml",
     "categorieId": 3,
     "charset": "iso-8859-1"
 }, {
@@ -56,6 +72,9 @@
     "categorieId": 4
 }, {
     "feedUrl": "http://www.lemonde.fr/international/rss_full.xml",
+    "categorieId": 4
+}, {
+    "feedUrl": "http://www.francetvinfo.fr/monde.rss",
     "categorieId": 4
 }, {
     "feedUrl": "http://rue89.feedsportal.com/c/33822/f/608954/index.rss",
