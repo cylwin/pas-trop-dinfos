@@ -6,9 +6,6 @@
     "feedUrl": "http://syndication.lesechos.fr/rss/rss_tech_medias.xml",
     "categorieId": 0
 }, {
-    "feedUrl": "http://www.leparisien.fr/high-tech/rss.xml",
-    "categorieId": 0
-}, {
     "feedUrl": "http://www.lefigaro.fr/rss/figaro_hightech.xml",
     "categorieId": 0,
     "charset": "iso-8859-1"
