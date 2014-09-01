@@ -1,5 +1,4 @@
 
-var async = require('async');
 var FeedParser = require('feedparser');
 var Info = require("../models/infos");
 var request = require('request');
@@ -89,10 +88,12 @@ RssCrawler.prototype = {
       .on('readable', function() {
         var stream = this, item;
         while (this.item = stream.read()) {
-          this.item.categorieId = categorieId;
-
-
-          feedItems.push(this.item);
+          if(Date.parse(this.item.pubdate) - Date.now() < 28*3600*1000) {
+            this.item.categorieId = categorieId;
+            feedItems.push(this.item);
+          }else {
+            console.log("TOO OLD : " + this.item.title);
+          }
         }
       })
       .on('end', function(){
