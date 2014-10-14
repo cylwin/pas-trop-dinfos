@@ -42,6 +42,22 @@ infoSchema.statics.getInfos = function getInfos(date, cb) {
     return this;
 };
 
+
+infoSchema.statics.getInfosSince = function getInfos(date, cb) {
+
+    var start = new Date(date);
+
+    start.setHours(0,0,0,0);
+
+    this.find({date: {$gte: start}})
+        .limit(5)
+        .sort('-date')
+        .select('_id title categorieId description link img score')
+        .exec(cb);
+
+    return this;
+};
+
 infoSchema.statics.groupByCategories = function(infos) {
     var categories = categorie.get().slice(0);
     for (var i = 0; i < infos.length; i++) {
