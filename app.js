@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 require('./routes/infos')(app);
+require('./routes/rss')(app);
 
 
 /// catch 404 and forwarding to error handler
