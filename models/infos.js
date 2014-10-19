@@ -50,7 +50,6 @@ infoSchema.statics.getInfosSince = function getInfos(date, cb) {
     start.setHours(0,0,0,0);
 
     this.find({date: {$gte: start}})
-        .limit(5)
         .sort('-date')
         .select('_id title categorieId description link img score')
         .exec(cb);
