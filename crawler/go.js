@@ -8,3 +8,5 @@ var rssCrawler = new RssCrawler();
 var feeds = require(__dirname+'/feeds.json');
 
 rssCrawler.crawl(feeds);
+
+mongoose.disconnect()
