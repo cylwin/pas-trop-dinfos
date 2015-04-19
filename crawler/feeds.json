@@ -1,7 +1,6 @@
 [{
     "feedUrl": "http://www.lefigaro.fr/rss/figaro_sciences.xml",
-    "categorieId": 0,
-    "charset": "iso-8859-1"
+    "categorieId": 0
 }, {
     "feedUrl": "http://com.clubic.feedsportal.com/c/33464/f/581979/index.rss",
     "categorieId": 0

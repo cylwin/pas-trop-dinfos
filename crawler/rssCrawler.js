@@ -8,7 +8,8 @@ var Twitter = require('./twitter');
 var iconv = require('iconv-lite');
 
 
-var RssCrawler = function () {
+var RssCrawler = function (mongoose) {
+    this.mongoose= mongoose;
   this.init();
 }
 
@@ -143,6 +144,8 @@ RssCrawler.prototype = {
   },
 
   save: function(){
+      var numberSaved = 0;
+      var self = this;
     for (var i = 0; i < this.selectedItems.length; i++) {
 
       var img = "";
@@ -168,6 +171,10 @@ RssCrawler.prototype = {
       console.log("saving :", info.title," score : ", info.score);
 
       new Info(info).save(function (err, data) {
+          numberSaved++;
+          if(numberSaved==self.selectedItems.length){
+              self.mongoose.disconnect();
+          }
         if (err){
           console.log(err);
           console.log(JSON.stringify(info));
@@ -176,7 +183,9 @@ RssCrawler.prototype = {
         // saved!
       });
     };
-  },
+
+
+  }
 
 }
 
