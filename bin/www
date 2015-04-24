@@ -18,7 +18,7 @@ var timeout = 6*60*60*1000;
 var crawl = function(){
     //
 
-    var RssCrawler = require(__dirname+'/../rssCrawler');
+    var RssCrawler = require(__dirname+'/../crawler/rssCrawler');
     var rssCrawler = new RssCrawler();
 
     var feeds = require(__dirname+'/feeds.json');
