@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 //var debug = require('debug')('my-application');
+var config = require(__dirname+'/../config/config');
+var mongoose = require('mongoose');
+
 var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
@@ -8,3 +11,20 @@ app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
 });
+
+
+var timeout = 6*60*60*1000;
+
+var crawl = function(){
+    mongoose.connect(config.db.url);
+
+    var RssCrawler = require(__dirname+'/rssCrawler');
+    var rssCrawler = new RssCrawler();
+
+    var feeds = require(__dirname+'/feeds.json');
+
+    rssCrawler.crawl(feeds);
+};
+
+setInterval(crawl,timeout);
+crawl();
