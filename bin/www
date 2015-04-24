@@ -21,7 +21,7 @@ var crawl = function(){
     var RssCrawler = require(__dirname+'/../crawler/rssCrawler');
     var rssCrawler = new RssCrawler();
 
-    var feeds = require(__dirname+'/feeds.json');
+    var feeds = require(__dirname+'/../crawler/feeds.json');
 
     rssCrawler.crawl(feeds);
 };
