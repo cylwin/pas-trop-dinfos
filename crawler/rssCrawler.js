@@ -173,7 +173,7 @@ RssCrawler.prototype = {
       new Info(info).save(function (err, data) {
           numberSaved++;
           if(numberSaved==self.selectedItems.length){
-              self.mongoose.disconnect();
+             // self.mongoose.disconnect();
           }
         if (err){
           console.log(err);
