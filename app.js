@@ -4,9 +4,7 @@ var config = require('./config/config');
 var express = require('express');
 var path = require('path');
 
-//Mogodb
-var mongoose = require('mongoose');
-mongoose.connect(config.db.url);
+
 
 //Routes
 var routes = require('./routes/index');
