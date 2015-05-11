@@ -36,7 +36,7 @@ infoSchema.statics.getInfos = function getInfos(date, cb) {
     this.find({date: {$gte: start, $lt: end}})
         .limit(5)
         .sort('-date')
-        .select('_id title categorieId description link img score')
+        .select('_id title categorieId description link img score date')
         .exec(cb);
 
     return this;
@@ -66,6 +66,16 @@ infoSchema.statics.groupByCategories = function(infos) {
         categories[infos[i].categorieId].infos.push(infos[i]);
     }
     return categories;
+};
+
+infoSchema.statics.oldArticles = function(index,cb){
+    this.find().sort('-date').select('_id title categorieId description link img score date').skip(index*5).limit(5).exec(cb);
+    return this;
+};
+
+infoSchema.statics.getArticleCount = function(cb){
+    this.count(cb);
+    return this;
 };
 
 // create the model for a game and expose it to our app

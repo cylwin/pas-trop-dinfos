@@ -1,0 +1,26 @@
+<div class="row">
+	<div class="col-md-12">
+		<h1 class="title">Pas trop d'infos</h1>
+		<p class="sub-title">Les 5 meilleures infos du jour, triées en fonction d'un score social basé sur les interactions entre utilisateurs de twitter.</p>
+		<p><a ng-href="/">Retour à la liste des articles.</a></p>
+		<div class="panel {{getCategorieClass(article.categorieId)}}">
+			<div class="panel-heading cat-name">{{article.categorieName}}</div>
+			<div class="panel-body">
+				<div class="media">
+					<a class="pull-left" ng-href="{{article.link}}">
+						<img class="media-object" ng-src="{{article.img}}" alt="{{article.title}}" width="200" height="120">
+					</a>
+					<div class="media-body">
+						<h3 class="media-heading"><a class="article-name" ng-href="{{article.link}}">{{article.title}}</a></h3>
+						<span class="description"><span ng-bind-html="article.description"></span> <a ng-href="{{article.link}}">lire plus...</a></span>
+						<br>
+						<br>
+						<span class="score"><span class="score-header">
+							<a class="btn btn-social-icon btn-facebook" onClick="window.open(this.href,'facebook','width=550,height=420');return false;"ng-href="http://www.facebook.com/sharer.php?u={{url}}/#/infos/{{article._id}}"><i class="fa fa-facebook"></i></a>
+							<a class="btn btn-social-icon btn-twitter" ng-href="http://twitter.com/share?text={{article.title}}&url={{url}}/#/infos/{{article._id}}" onclick="window.open(this.href,'twitter','width=550,height=250');return false;"><i class="fa fa-twitter"></i></a>&nbsp;PTDI Score : </span> {{article.score}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

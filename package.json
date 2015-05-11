@@ -28,6 +28,7 @@
     "limiter": "^1.0.5",
     "mongoose": "^3.8.8",
     "request": "^2.40.0",
+    "request-json": "^0.5.3",
     "rss": "~1.0.0",
     "twit": "^1.1.18"
   }

@@ -30,6 +30,7 @@ RssCrawler.prototype = {
     this.rendezvous.setCallback(function(){
       self.selectItems();
       self.save();
+      //TODO share
     });
     console.log('RssCrawler initialised');
 
