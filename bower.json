@@ -11,6 +11,7 @@
     "angular-route": "1.2.16",
     "angular-animate": "1.2.16",
     "angular-mocks": "1.2.16",
-    "Bootflat": "~2.0.3"
+    "Bootflat": "~2.0.3",
+    "social-buttons": "*"
   }
 }
