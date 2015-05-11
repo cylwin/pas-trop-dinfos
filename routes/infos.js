@@ -6,73 +6,73 @@ var Info = require(__dirname+'/../models/infos');
 /* GET today best infos. */
 app.get('/infos', function(req, res) {
 
-	//console.log(new Date(req.query.date));
+    //console.log(new Date(req.query.date));
 
-	if(!req.query.date){
-		req.query.date = new Date();
-	}
+    if(!req.query.date){
+        req.query.date = new Date();
+    }
 
-	var categories = [];
-	Info.getInfos(req.query.date, function(err, infos){
-		if(err){
-			console.log(err);
-			res.send(500, "mongodb querie failed");
-			return;
-		}
-		categories = Info.groupByCategories(infos);
-		res.send({categories : categories});
-	});
+    var categories = [];
+    Info.getInfos(req.query.date, function(err, infos){
+        if(err){
+            console.log(err);
+            res.send(500, "mongodb querie failed");
+            return;
+        }
+        categories = Info.groupByCategories(infos);
+        res.send({categories : categories});
+    });
 
 });
 
 app.get('/infos/click', function(req, res) {
-	if(!req.query._id){
-		res.send(400); //TODO check this code
-		return;
-	}
-	Info.findOne({_id : req.query._id}, function(err, info){
-		if(err){ return; }
-		info.clickCount++;
-		info.save();
-	})
-	res.send(200);
+    if(!req.query._id){
+        res.send(400); //TODO check this code
+        return;
+    }
+    Info.findOne({_id : req.query._id}, function(err, info){
+        if(err){ return; }
+        info.clickCount++;
+        info.save();
+    })
+    res.send(200);
 });
 
 app.get('/infos/:id', function(req,res, next){
-	Info.findOne({_id:req.params.id}, function(err,info){
-		if(err)
-			return next(err);
-		info = info.toJSON();
-		info.categorieName = cat.get(info.categorieId).name;
-		res.send(info);
-	});
-	// res.send(200);
+    Info.findOne({_id:req.params.id}, function(err,info){
+        if(err)
+            return next(err);
+        info = info.toJSON();
+        info.categorieName = cat.get(info.categorieId).name;
+        res.send(info);
+    });
+    // res.send(200);
 });
 
 app.get('/page/count', function(req,res, next){
-	Info.getArticleCount(function(err,info){
-		if(err){
-			console.log(err);
-			res.send(500, "mongodb querie failed");
-			return;
-		}
+    Info.getArticleCount(function(err,info){
+        if(err){
+            console.log(err);
+            res.send(500, "mongodb querie failed");
+            return;
+        }
         //console.log(info);
-		res.send({count:info});
-	});
+        res.send({count:info});
+    });
 });
 
 app.get('/page/:id',function(req,res,next){
-	var categories = [];
-	Info.oldArticles(req.params.id, function(err, infos){
-		if(err){
-			console.log(err);
-			res.send(500, "mongodb querie failed");
-			return;
-		}
+    var categories = [];
+    Info.oldArticles(req.params.id, function(err, infos){
+        if(err){
+            console.log(err);
+            res.send(500, "mongodb querie failed");
+            return;
+        }
         
-		categories = Info.groupByCategories(infos);
-		res.send({categories : categories});
-	});
+        categories = Info.groupByCategories(infos);
+        res.send({categories : categories});
+    });
 });
 
 

@@ -2,10 +2,12 @@
 
 angular.module('ptdi')
 .controller('MainCtrl', function($scope, NewsService, $routeParams) {
-    if($routeParams.page == undefined)
+    
+    $scope.encodeURIComponent = encodeURIComponent;
+    
+    if(!$routeParams.page)
         NewsService.resource.get('', function(data){
             $scope.categories = data.categories;
-            
         });
     else{
         NewsService.oldArticles.get({page:$routeParams.page},function(data){

@@ -37,7 +37,7 @@ module.exports = function(app){
                 feed.item({
                     title:  info.title,
                     description: info.description,
-                    url: 'http://ptdi.herokuapp.com/#/infos/'+info._id, // link to the item
+                    url: 'http://'+req.headers.host+'/#/infos/'+info._id, // link to the item
                     date: info.date, // any format that js Date can parse.
                     enclosure: {url:info.img} // optional enclosure
                 });
