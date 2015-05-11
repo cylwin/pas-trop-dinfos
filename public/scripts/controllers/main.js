@@ -1,10 +1,25 @@
 'use strict';
 
 angular.module('ptdi')
-.controller('MainCtrl', function($scope, NewsService) {
-    NewsService.resource.get('', function(data){
-        $scope.categories = data.categories;
+.controller('MainCtrl', function($scope, NewsService, $routeParams) {
+    if($routeParams.page == undefined)
+        NewsService.resource.get('', function(data){
+            $scope.categories = data.categories;
+            
+        });
+    else{
+        NewsService.oldArticles.get({page:$routeParams.page},function(data){
+            $scope.categories = data.categories;
+        });
+    }
+
+    NewsService.pages.get(function(data){
+        $scope.nbPages = data.count / 5;
     });
+
+    $scope.url = window.location.origin;
+    
+    $scope.currentPage = ($routeParams.page) ? $routeParams.page : 0;
 
     $scope.getCategorieClass = function(catId) {
         var catClass = {};

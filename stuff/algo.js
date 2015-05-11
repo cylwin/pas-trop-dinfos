@@ -82,6 +82,10 @@ function selectArticles(){
 	}
 }
 
+function cleanDescription(){
+    console.log("aaaa");
+}
+
 randomizeArticles();
 selectArticles();
 //displayArticles(selectedArticles);

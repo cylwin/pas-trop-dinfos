@@ -15,6 +15,14 @@ angular.module('ptdi', [
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
     })
+    .when('/infos/:id',{
+        templateUrl: 'views/article.html',
+        controller: 'ArticleCtrl'
+    })
+    .when('/:page',{
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+    })
     .otherwise({
         redirectTo: '/'
     });
