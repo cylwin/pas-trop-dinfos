@@ -23,9 +23,9 @@ module.exports = function(app){
             /* lets create an rss feed */
             var feed = new RSS({
                 title: 'PTDI RSS feed',
-                feed_url: 'http://ptdi.cloudapp.net/rss.xml',
-                site_url: 'http://ptdi.cloudapp.net/',
-                image_url: 'http://ptdi.cloudapp.net/favicon.ico',
+                feed_url: 'http://ptdi.herokuapp.com/rss.xml',
+                site_url: 'http://ptdi.herokuapp.com/',
+                image_url: 'http://ptdi.herokuapp.com/favicon.ico',
                 language: 'fr',
                 pubDate:Date.now(),
                 ttl: '60'
@@ -37,7 +37,7 @@ module.exports = function(app){
                 feed.item({
                     title:  info.title,
                     description: info.description,
-                    url: 'http://'+req.headers.host+'/#/infos/'+info._id, // link to the item
+                    url: info.link, // link to the item
                     date: info.date, // any format that js Date can parse.
                     enclosure: {url:info.img} // optional enclosure
                 });
