@@ -47,10 +47,10 @@ a.info-name{
 }
 
 .prev{
-    float:left;
+    float:right;
 }
 .next{
-    float:right;
+    float:left;
 }
 
 

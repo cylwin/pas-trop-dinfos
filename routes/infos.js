@@ -8,12 +8,8 @@ app.get('/infos', function(req, res) {
 
     //console.log(new Date(req.query.date));
 
-    if(!req.query.date){
-        req.query.date = new Date();
-    }
-
     var categories = [];
-    Info.getInfos(req.query.date, function(err, infos){
+    Info.getInfos( function(err, infos){
         if(err){
             console.log(err);
             res.send(500, "mongodb querie failed");

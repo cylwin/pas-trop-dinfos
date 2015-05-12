@@ -25,15 +25,9 @@ var infoSchema = mongoose.Schema({
 });
 
 
-infoSchema.statics.getInfos = function getInfos(date, cb) {
+infoSchema.statics.getInfos = function getInfos(cb) {
 
-    start = new Date(date);
-    end = new Date(date);
-
-    start.setHours(0,0,0,0);
-    end.setHours(23,59,59);
-
-    this.find({date: {$gte: start, $lt: end}})
+    this.find()
         .limit(5)
         .sort('-date')
         .select('_id title categorieId description link img score date')
