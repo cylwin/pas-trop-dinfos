@@ -170,8 +170,8 @@ RssCrawler.prototype = {
         score : this.selectedItems[i].analysedInfos.score
       };
       console.log("saving :", info.title," score : ", info.score);
-
-      new Info(info).save(function (err, data) {
+      
+      Info.findOneAndUpdate({link:info.link},info, {upsert:true},function (err, data) {
           numberSaved++;
           if(numberSaved==self.selectedItems.length){
              // self.mongoose.disconnect();

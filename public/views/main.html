@@ -3,8 +3,8 @@
 		<h1 class="title">Pas trop d'infos</h1><h2>Actualités du {{categories[0].infos[0].date| date:'EEEE dd MMMM yyyy' }}</h2>
 		<p class="sub-title">Les 5 meilleures infos du jour, triées en fonction d'un score social basé sur les interactions entre utilisateurs de twitter.</p>
         <nav class="pagination">
-            <p class="prev"><a ng-href="/#/{{(currentPage -1 == 0) ? '' : currentPage - 1}}" ng-if="currentPage > 0">Précédent</a></p>
-            <p class="next"><a ng-href="/#/{{currentPage - 1 + 2}}" ng-if="currentPage < nbPages-1">Suivant</a></p>
+            <p class="next"><a ng-href="/#/{{currentPage - 1 + 2}}" ng-if="currentPage < nbPages-1">Précédent</a></p>
+            <p class="prev"><a ng-href="/#/{{(currentPage -1 == 0) ? '' : currentPage - 1}}" ng-if="currentPage > 0">Suivant</a></p>
         </nav>
 		<div ng-repeat="categorie in categories" class="panel {{getCategorieClass(categorie._id)}}">
 			<div class="panel-heading cat-name"><a ng-href="/#/infos/{{categorie.infos[0]._id}}">{{categorie.name}}</a></div>
@@ -19,8 +19,8 @@
 						<br>
 						<br>
 						<span class="score"><span class="score-header">
-							<a class="btn btn-social-icon btn-facebook" onClick="window.open(this.href,'facebook','width=550,height=350');return false;" ng-href="http://www.facebook.com/sharer.php?u={{encodeURIComponent(url)}}/#/infos/{{info._id}}"><i class="fa fa-facebook"></i></a>
-							<a class="btn btn-social-icon btn-twitter" ng-href="http://twitter.com/share?text={{encodeURIComponent(info.title)}}&url={{encodeURIComponent(url)}}/#/infos/{{info._id}}" onclick="window.open(this.href,'twitter','width=550,height=250');return false;"><i class="fa fa-twitter"></i></a>&nbsp;
+							<a class="btn btn-social-icon btn-facebook" onClick="window.open(this.href,'facebook','width=550,height=350');return false;" ng-href="{{'http://www.facebook.com/sharer.php?u='+encodeURIComponent(url)+'/#/infos/'+info._id}}"><i class="fa fa-facebook"></i></a>
+							<a class="btn btn-social-icon btn-twitter" ng-href="{{'http://twitter.com/share?text='+encodeURIComponent(info.title)+'&url='+encodeURIComponent(url)+'/#/infos/'+info._id}}" onclick="window.open(this.href,'twitter','width=550,height=250');return false;"><i class="fa fa-twitter"></i></a>&nbsp;
 							PTDI Score :</span> {{info.score}}
 						</span>
 					</div>
