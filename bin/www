@@ -23,7 +23,7 @@ var crawl = function(){
 
     var feeds = require(__dirname+'/../crawler/feeds.json');
 
-    //rssCrawler.crawl(feeds);
+    rssCrawler.crawl(feeds);
 };
 
 setInterval(crawl,timeout);
