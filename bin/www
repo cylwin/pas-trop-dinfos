@@ -13,7 +13,7 @@ var server = app.listen(app.get('port'), function() {
 });
 
 
-var timeout = 6*60*60*1000;
+var timeout = 12*60*60*1000;
 
 var crawl = function(){
     //

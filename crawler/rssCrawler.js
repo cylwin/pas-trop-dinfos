@@ -1,4 +1,3 @@
-
 var FeedParser = require('feedparser');
 var Info = require("../models/infos");
 var request = require('request');
